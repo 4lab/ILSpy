@@ -43,14 +43,23 @@ public static class CustomShortCircuitOperators
 		public static CustomShortCircuitOperators.C operator |(CustomShortCircuitOperators.C x, CustomShortCircuitOperators.C y)
 		{
 			return null;
-		}
-		
-		public static bool operator !(CustomShortCircuitOperators.C x)
+        }
+        public static bool operator true(CustomShortCircuitOperators.C x)
+        {
+            return true;
+        }
+
+        public static bool operator false(CustomShortCircuitOperators.C x)
+        {
+            return false;
+        }
+
+        public static bool operator !(CustomShortCircuitOperators.C x)
 		{
 			return false;
 		}
 
-		private static void Main()
+        private static void Main()
 		{
 			CustomShortCircuitOperators.C c = new CustomShortCircuitOperators.C();
 			CustomShortCircuitOperators.C c2 = new CustomShortCircuitOperators.C();
