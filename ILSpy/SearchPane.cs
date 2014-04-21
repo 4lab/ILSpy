@@ -93,7 +93,11 @@ namespace ICSharpCode.ILSpy
 			}
 			Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
-				new Func<bool>(searchBox.Focus));
+				new Action(
+					delegate {
+						searchBox.Focus();
+						searchBox.SelectAll();
+					}));
 		}
 		
 		public static readonly DependencyProperty SearchTermProperty =
