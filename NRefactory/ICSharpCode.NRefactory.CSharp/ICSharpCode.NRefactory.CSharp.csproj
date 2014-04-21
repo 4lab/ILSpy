@@ -67,6 +67,50 @@
     <DebugType>PdbOnly</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;FULL_AST;NET_4_0</DefineConstants>
+    <DocumentationFile>..\bin\Debug\ICSharpCode.NRefactory.CSharp.xml</DocumentationFile>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591,1587,1570</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;FULL_AST;NET_4_0</DefineConstants>
+    <DocumentationFile>..\bin\Release\ICSharpCode.NRefactory.CSharp.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591,1587,1570</NoWarn>
+    <DebugType>PdbOnly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net_4_5_Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\net_4_5_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;FULL_AST;NET_4_0;NET_4_5</DefineConstants>
+    <DocumentationFile>..\bin\net_4_5_Debug\ICSharpCode.NRefactory.CSharp.xml</DocumentationFile>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591,1587,1570</NoWarn>
+    <DebugType>Full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net_4_5_Release|x86'">
+    <OutputPath>bin\x86\net_4_5_Release\</OutputPath>
+    <DefineConstants>TRACE;FULL_AST;NET_4_0;NET_4_5</DefineConstants>
+    <DocumentationFile>..\bin\net_4_5_Release\ICSharpCode.NRefactory.CSharp.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>1591,1587,1570</NoWarn>
+    <DebugType>PdbOnly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -506,14 +550,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
-  <ItemGroup>
-    <Folder Include="Completion\" />
-    <Folder Include="Refactoring\CodeIssues\" />
-    <Folder Include="Refactoring\CodeIssues\InconsistentNamingIssue\" />
-    <Folder Include="Refactoring\CodeActions\ExtractMethod\" />
-    <Folder Include="Refactoring\CodeActions\ConvertToInitializer\" />
-    <Folder Include="Refactoring\CodeIssues\FormatStringIssues\" />
-  </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
