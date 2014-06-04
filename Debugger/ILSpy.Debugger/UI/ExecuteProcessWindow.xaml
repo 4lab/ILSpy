@@ -6,9 +6,18 @@
 	WindowState="Normal"
 	WindowStyle="ToolWindow"
 	ShowInTaskbar="False"
-	Height="171"
-	Width="509">
-	<Grid>
+	Height="250"
+	Width="596">
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="ExecuteButton_Click" />
+        <CommandBinding Command="Close" Executed="CancelButton_Click" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="Close" />
+        <KeyBinding Key="Return" Command="Open" />
+    </Window.InputBindings>
+	<Grid
+		Height="217">
 		<Grid.RowDefinitions>
 			<RowDefinition
 				Height="1.4*" />
@@ -29,14 +38,15 @@
 			Grid.Row="0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Margin="19.5,15.5,0,0" />
-		<TextBox
-			Name="pathTextBox"
-			Grid.Column="1"
-			Grid.Row="0"
-			HorizontalAlignment="Stretch"
+			Margin="19.5,28.5,0,0"
+			Width="92"
+			Height="25" />
+		<TextBox HorizontalAlignment="Left"
 			VerticalAlignment="Top"
-			Margin="5,15.5,0,0" />
+			Margin="133.5,28,72,0"
+			Width="368"
+			Height="25"
+			Name="pathTextBox" />
 		<Button
 			Content="..."
 			MinWidth="25"
