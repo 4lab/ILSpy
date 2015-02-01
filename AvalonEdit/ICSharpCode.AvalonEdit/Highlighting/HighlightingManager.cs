@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Xml;
 
 using ICSharpCode.AvalonEdit.Utils;
@@ -200,18 +201,61 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 				throw new ArgumentNullException("lazyLoadedHighlighting");
 			RegisterHighlighting(name, extensions, new DelayLoadedHighlightingDefinition(name, lazyLoadedHighlighting));
 		}
-		
+
 		/// <summary>
 		/// Gets the default HighlightingManager instance.
 		/// The default HighlightingManager comes with built-in highlightings.
 		/// </summary>
+		//todo: SPAST
+		private static HighlightingManager m_Instance;
 		public static HighlightingManager Instance {
 			get {
-				return DefaultHighlightingManager.Instance;
+				if (m_Instance == null) 
+				{
+					if (Directory.Exists("themes"))
+						m_Instance = FileSystemBasedHighlightingManager.Instance;
+					else 
+						m_Instance = DefaultHighlightingManager.Instance;
+				}
+
+				MessageBox.Show(m_Instance.GetType().ToString());
+				return m_Instance;
 			}
 		}
-		
-		internal sealed class DefaultHighlightingManager : HighlightingManager
+
+		internal sealed class FileSystemBasedHighlightingManager : DefaultHighlightingManager 
+		{
+			public new static readonly FileSystemBasedHighlightingManager Instance = new FileSystemBasedHighlightingManager();
+
+			public FileSystemBasedHighlightingManager() {
+				Resources.RegisterBuiltInHighlightings(this);
+			}
+
+			internal new void RegisterHighlighting(string name, string[] extensions, string resourceName) {
+				try {
+					RegisterHighlighting(name, extensions, LoadHighlighting(resourceName));
+				} catch (HighlightingDefinitionInvalidException ex) {
+					throw new InvalidOperationException("The file highlighting '" + name + "' is invalid.", ex);
+				}
+			}
+
+			Func<IHighlightingDefinition> LoadHighlighting(string fileName) {
+				Func<IHighlightingDefinition> func = delegate {
+					Xshd.XshdSyntaxDefinition xshd;
+					var file = Path.Combine("themes", fileName);
+					using (Stream s = File.Open(file, FileMode.Open)) {
+						using (XmlTextReader reader = new XmlTextReader(s)) {
+							// in release builds, skip validating the built-in highlightings
+							xshd = Xshd.HighlightingLoader.LoadXshd(reader, true);
+						}
+					}
+					return Xshd.HighlightingLoader.Load(xshd, this);
+				};
+				return func;
+			}
+		}
+
+		internal class DefaultHighlightingManager : HighlightingManager
 		{
 			public new static readonly DefaultHighlightingManager Instance = new DefaultHighlightingManager();
 			
@@ -221,8 +265,7 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 			}
 			
 			// Registering a built-in highlighting
-			internal void RegisterHighlighting(string name, string[] extensions, string resourceName)
-			{
+			internal virtual void RegisterHighlighting(string name, string[] extensions, string resourceName) {
 				try {
 					#if DEBUG
 					// don't use lazy-loading in debug builds, show errors immediately
@@ -266,6 +309,8 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 			{
 				Func<IHighlightingDefinition> func = delegate {
 					Xshd.XshdSyntaxDefinition xshd;
+					//var file = Path.Combine("themes", resourceName);
+					//using (Stream s = File.Open(file, FileMode.Open)) {
 					using (Stream s = Resources.OpenStream(resourceName)) {
 						using (XmlTextReader reader = new XmlTextReader(s)) {
 							// in release builds, skip validating the built-in highlightings
