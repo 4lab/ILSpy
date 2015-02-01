@@ -231,7 +231,7 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 				Resources.RegisterBuiltInHighlightings(this);
 			}
 
-			internal new void RegisterHighlighting(string name, string[] extensions, string resourceName) {
+			internal override void RegisterHighlighting(string name, string[] extensions, string resourceName) {
 				try {
 					RegisterHighlighting(name, extensions, LoadHighlighting(resourceName));
 				} catch (HighlightingDefinitionInvalidException ex) {
