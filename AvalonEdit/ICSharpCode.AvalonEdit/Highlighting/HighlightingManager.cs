@@ -218,7 +218,6 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 						m_Instance = DefaultHighlightingManager.Instance;
 				}
 
-				MessageBox.Show(m_Instance.GetType().ToString());
 				return m_Instance;
 			}
 		}
@@ -243,6 +242,7 @@ namespace ICSharpCode.AvalonEdit.Highlighting
 				Func<IHighlightingDefinition> func = delegate {
 					Xshd.XshdSyntaxDefinition xshd;
 					var file = Path.Combine("themes", fileName);
+					//todo: fallback if file does not exist?
 					using (Stream s = File.Open(file, FileMode.Open)) {
 						using (XmlTextReader reader = new XmlTextReader(s)) {
 							// in release builds, skip validating the built-in highlightings
